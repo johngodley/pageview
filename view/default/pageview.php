@@ -1,6 +1,6 @@
 <div class="pageview">
   <div class="pageviewhead">
-    <img alt="View code" src="<?php bloginfo ('wpurl') ?>/wp-content/plugins/pageview/pageview.gif" width="48" height="48" align="left"/>
+    <img alt="View code" src="<?php echo $this->url () ?>/pageview.gif" width="48" height="48" align="left"/>
 
     <table>
       <tr>
