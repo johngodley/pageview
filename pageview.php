@@ -2,8 +2,8 @@
 /*
 Plugin Name: Page View
 Plugin URI: http://urbangiraffe.com/plugins/pageview/
-Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>&lt;!-- pageview url title description --&gt;</code>
-Version: 1.4.1
+Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>[pageview url "title" description]</code>
+Version: 1.4.2
 Author: John Godley
 Author URI: http://urbangiraffe.com
 
@@ -11,6 +11,7 @@ Author URI: http://urbangiraffe.com
 1.3   - Update to allow templated HTML.  Allow spaces in title when using quotes.  Strip <p>
 1.4.0 - Include CSS by default
 1.4.1 - Change tag so it's no longer a comment
+1.4.2 - Update help field, make work better with wpautop/wptexturize
 
 */
 
@@ -38,12 +39,13 @@ class PageView extends PageView_Plugin
 	
 	function replace ($matches)
 	{
+		$matches[2] = str_replace (array ('&#8221;', '&#8220;', '"'), '', $matches[2]);
 		return $this->capture ('pageview', array ('url' => $matches[1], 'title' => trim ($matches[2], '"'), 'description' => $matches[3]));
 	}
 
 	function the_content ($text)
 	{
-	  return preg_replace_callback ("@(?:<p>\s*)?\[pageview (.*?) (\w*|\".*?\") (.*?)\](?:\s*</p>)?@", array (&$this, 'replace'), $text);
+	  return preg_replace_callback ("@(?:<p>\s*)?\[pageview\s*(.*?)\s*(\w*|\".*?\"|&#8220;.*?&#8221;) (.*?)\](?:\s*</p>)?@", array (&$this, 'replace'), $text);
 	}
 }
 
