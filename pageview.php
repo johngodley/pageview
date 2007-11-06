@@ -3,7 +3,7 @@
 Plugin Name: Page View
 Plugin URI: http://urbangiraffe.com/plugins/pageview/
 Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>[pageview url "title" description]</code>
-Version: 1.4.2
+Version: 1.4.3
 Author: John Godley
 Author URI: http://urbangiraffe.com
 
@@ -12,6 +12,7 @@ Author URI: http://urbangiraffe.com
 1.4.0 - Include CSS by default
 1.4.1 - Change tag so it's no longer a comment
 1.4.2 - Update help field, make work better with wpautop/wptexturize
+1.4.3 - Change pattern matching routine
 
 */
 
@@ -39,13 +40,51 @@ class PageView extends PageView_Plugin
 	
 	function replace ($matches)
 	{
-		$matches[2] = str_replace (array ('&#8221;', '&#8220;', '"'), '', $matches[2]);
-		return $this->capture ('pageview', array ('url' => $matches[1], 'title' => trim ($matches[2], '"'), 'description' => $matches[3]));
+		$tmp = strpos ($matches[1], ' ');
+		if ($tmp)
+		{
+			// Because the regex is such a nuisance
+			$url  = substr ($matches[1], 0, $tmp);
+			$rest = substr ($matches[1], strlen ($url));
+			
+			$title       = '';
+			$description = '';
+			
+			if (strpos ($rest, '"') !== false || strpos ($rest, '&#8220;') !== false)
+			{
+				$start = strpos ($rest, '"');
+				if ($start === false)
+					$start = strpos ($rest, '&#8220;') + 7;
+					
+				$end = strpos ($rest, '"', $start + 1);
+				if ($end === false)
+					$end = strpos ($rest, '&#8221;', $start + 1);
+					
+				$title       = substr ($rest, $start, $end);
+				$description = substr ($rest, $end);
+				
+				$title       = trim (str_replace ('&#8221;', '', $title));
+				$description = trim (str_replace ('&#8221;', '', $description));
+			}
+			else
+			{
+				$parts = array_values (array_filter (explode (' ', $rest)));
+				$title = $parts[0];
+				
+				unset ($parts[0]);
+				$description = implode (' ', $parts);
+			}
+
+			
+			return $this->capture ('pageview', array ('url' => $url, 'title' => $title, 'description' => $description));
+		}
+		
+		return '';
 	}
 
 	function the_content ($text)
 	{
-	  return preg_replace_callback ("@(?:<p>\s*)?\[pageview\s*(.*?)\s*(\w*|\".*?\"|&#8220;.*?&#8221;) (.*?)\](?:\s*</p>)?@", array (&$this, 'replace'), $text);
+	  return preg_replace_callback ("@(?:<p>\s*)?\[pageview\s*(.*?)\](?:\s*</p>)?@", array (&$this, 'replace'), $text);
 	}
 }
 
