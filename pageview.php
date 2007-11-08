@@ -3,7 +3,7 @@
 Plugin Name: Page View
 Plugin URI: http://urbangiraffe.com/plugins/pageview/
 Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>[pageview url "title" description]</code>
-Version: 1.4.3
+Version: 1.4.4
 Author: John Godley
 Author URI: http://urbangiraffe.com
 
@@ -13,6 +13,7 @@ Author URI: http://urbangiraffe.com
 1.4.1 - Change tag so it's no longer a comment
 1.4.2 - Update help field, make work better with wpautop/wptexturize
 1.4.3 - Change pattern matching routine
+1.4.4 - Remove spurious quotes and vertically align the description
 
 */
 
@@ -75,8 +76,12 @@ class PageView extends PageView_Plugin
 				$description = implode (' ', $parts);
 			}
 
+			$title = trim ($title, '"');
+			$title = trim ($title);
+			$description = trim ($description, '"');
+			$description = trim ($description);
 			
-			return $this->capture ('pageview', array ('url' => $url, 'title' => $title, 'description' => $description));
+			return $this->capture ('pageview', array ('url' => $url, 'title' => trim ($title, '"'), 'description' => $description));
 		}
 		
 		return '';

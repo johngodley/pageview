@@ -8,7 +8,7 @@
         <td><a title="View fullscreen" target="_blank" href="<?php echo $url ?>"><?php echo htmlspecialchars ($title) ?></a></td>
       </tr>
       <tr>
-        <td><strong>Description:</strong></td>
+        <td valign="top"><strong>Description:</strong></td>
         <td><?php echo htmlspecialchars ($description) ?></td>
       </tr>
     </table>
