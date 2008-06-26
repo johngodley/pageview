@@ -1,4 +1,4 @@
-<div class="pageview">
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><div class="pageview">
   <div class="pageviewhead">
     <img alt="View code" src="<?php echo $this->url () ?>/pageview.gif" width="48" height="48" align="left"/>
 
