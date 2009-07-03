@@ -6,15 +6,6 @@ Description: Allows the insertion of code to display an external webpage within 
 Version: 1.4.4
 Author: John Godley
 Author URI: http://urbangiraffe.com
-
-1.2   - Old version
-1.3   - Update to allow templated HTML.  Allow spaces in title when using quotes.  Strip <p>
-1.4.0 - Include CSS by default
-1.4.1 - Change tag so it's no longer a comment
-1.4.2 - Update help field, make work better with wpautop/wptexturize
-1.4.3 - Change pattern matching routine
-1.4.4 - Remove spurious quotes and vertically align the description
-
 */
 
 include (dirname (__FILE__).'/plugin.php');

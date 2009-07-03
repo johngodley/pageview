@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/support/
 Tags: post, page, html, embed, iframe
 Requires at least: 1.3
-Tested up to: 2.3
+Tested up to: 2.8
 Stable tag: trunk
 
 Allows the insertion of code to display an external webpage within an iframe, along with a title and description.
@@ -28,3 +28,29 @@ You can find full details of installing a plugin on the [plugin installation pag
 
 Full documentation can be found on the [Pageview](http://urbangiraffe.com/plugins/pageview/) page.
 
+== Changelog ==
+
+
+= 1.2   = 
+* Old version
+
+= 1.3   = 
+* Update to allow templated HTML.
+* Allow spaces in title when using quotes.
+* Strip <p>
+
+= 1.4.0 = 
+* Include CSS by default
+
+= 1.4.1 = 
+* Change tag so it's no longer a comment
+
+= 1.4.2 = 
+* Update help field
+* Make work better with wpautop/wptexturize
+
+= 1.4.3 = 
+* Change pattern matching routine
+
+= 1.4.4 = 
+* Remove spurious quotes and vertically align the description
