@@ -2,13 +2,11 @@
 /*
 Plugin Name: Page View
 Plugin URI: http://urbangiraffe.com/plugins/pageview/
-Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>[pageview url "title" description]</code>
-Version: 1.5
+Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>[pageview url="url" title="title"]</code>
+Version: 1.5.1
 Author: John Godley
 Author URI: http://urbangiraffe.com
 */
-
-include dirname( __FILE__ ).'/plugin.php';
 
 class PageView {
 	function PageView() {
@@ -23,6 +21,8 @@ class PageView {
 
 		if ( !in_array( $scroll, array( 'auto', 'yes', 'no' ) ) )
 			$scroll = 'no';
+
+		ob_start();
 ?>
 <div class="pageview">
 	<?php if ( $title || $desc ) : ?>
@@ -48,6 +48,10 @@ class PageView {
   <iframe src="<?php echo $url ?>" frameborder="0" style="<?php echo $border; ?>" scrolling="<?php echo $scroll; ?>" height="<?php echo $height; ?>" width="<?php echo $width; ?>">Get a better browser!</iframe>
 </div>
 <?php
+		$contents = ob_get_contents();
+		ob_end_clean();
+
+		return $contents;
 	}
 	
 	function shortcode( $attrs, $content = null, $code = '' ) {
@@ -89,3 +93,4 @@ function register_pageview() {
 }
 
 add_action( 'init', 'register_pageview' );
+

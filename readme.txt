@@ -60,3 +60,8 @@ Full documentation can be found on the [Pageview](http://urbangiraffe.com/plugin
 * New parameters supported
 * Cleanup
 * Removed default style and icon
+
+= 1.5.1 =
+* Remove plugin.php file
+* Return the shortcode, don't just echo it
+
