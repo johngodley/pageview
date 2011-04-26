@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/support/
 Tags: post, page, html, embed, iframe
 Requires at least: 2.5
-Tested up to: 3.1
+Tested up to: 3.1.2
 Stable tag: trunk
 
 Allows the insertion of code to display an external webpage within an iframe, along with a title and description.
