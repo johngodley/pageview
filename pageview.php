@@ -3,17 +3,17 @@
 Plugin Name: Page View
 Plugin URI: http://urbangiraffe.com/plugins/pageview/
 Description: Allows the insertion of code to display an external webpage within an iframe, along with a title and description.  The tag to insert the code is: <code>[pageview url="url" title="title"]</code>
-Version: 1.5.1
+Version: 1.6
 Author: John Godley
 Author URI: http://urbangiraffe.com
 */
 
 class PageView {
-	function PageView() {
+	public function __construct() {
 		add_shortcode( 'pageview', array( &$this, 'shortcode' ) );
 	}
-	
-	function render( $url, $title, $desc, $width, $height, $border, $scroll ) {
+
+	private function render( $url, $title, $desc, $width, $height, $border, $scroll ) {
 		$width  = preg_replace( '/[^0-9%px]/', '', $width );
 		$height = preg_replace( '/[^0-9%px]/', '', $height );
 
@@ -31,21 +31,21 @@ class PageView {
 			<?php if ( $title ) : ?>
 				<tr>
 		      <td width="80"><strong><?php _e( 'Title' ); ?>:</strong></td>
-		      <td><a title="View fullscreen" target="_blank" href="<?php echo $url ?>"><?php echo esc_html( $title ) ?></a></td>
+		      <td><a title="View fullscreen" target="_blank" href="<?php echo esc_url( $url ) ?>"><?php echo esc_html( $title ) ?></a></td>
 				</tr>
 			<?php endif; ?>
-			
+
 			<?php if ( $desc ) : ?>
 		  	<tr>
 			    <td width="80" valign="top"><strong><?php _e( 'Description' ); ?>:</strong></td>
 		      <td><?php echo esc_html( $desc ) ?></td>
 				</tr>
 			<?php endif; ?>
-			
+
 	  </table>
 	<?php endif; ?>
 
-  <iframe src="<?php echo $url ?>" frameborder="0" style="<?php echo $border; ?>" scrolling="<?php echo $scroll; ?>" height="<?php echo $height; ?>" width="<?php echo $width; ?>">Get a better browser!</iframe>
+  <iframe src="<?php echo esc_url( $url ) ?>" frameborder="0" style="<?php echo esc_attr( $border ); ?>" scrolling="<?php echo esc_attr( $scroll ); ?>" height="<?php echo esc_attr( $height ); ?>" width="<?php echo esc_attr( $width ); ?>">Get a better browser!</iframe>
 </div>
 <?php
 		$contents = ob_get_contents();
@@ -53,8 +53,8 @@ class PageView {
 
 		return $contents;
 	}
-	
-	function shortcode( $attrs, $content = null, $code = '' ) {
+
+	public function shortcode( $attrs, $content = null, $code = '' ) {
 		$title  = $desc = $url = '';
 		$height = '400px';
 		$width  = '100%';
@@ -72,7 +72,7 @@ class PageView {
 			// Old style
 			$url   = $attrs[0];
 			$title = $desc = '';
-			
+
 			if ( isset( $attrs[1] ) )
 				$title = $attrs[1];
 
@@ -83,12 +83,12 @@ class PageView {
 		if ( $url )
 			return $this->render( $url, $title, $desc, $width, $height, $border, $scrolling );
 		return '';
-	}	
+	}
 }
 
 function register_pageview() {
 	global $pageview;
-	
+
 	$pageview = new PageView();
 }
 
